@@ -1,0 +1,958 @@
+{
+ "_readme": "ALL Vastu rules live in this one file. Edit zones, reasons and weights here. Every rule has a 'source' field; replace it when a rule is confirmed against the user's reference images. Zones: N NE E SE S SW W NW C (C = Brahmasthan). Zones not listed in pass/caution/fail count as caution.",
+ "version": 1,
+ "scoring": {
+  "pass": 1,
+  "caution": 0.5,
+  "fail": 0
+ },
+ "elements": [
+  {
+   "id": "entrance",
+   "label": "Entrance / main door",
+   "short": "D",
+   "shape": "point",
+   "color": "#16a34a"
+  },
+  {
+   "id": "kitchen",
+   "label": "Kitchen",
+   "short": "K",
+   "shape": "room",
+   "color": "#f97316"
+  },
+  {
+   "id": "master_bedroom",
+   "label": "Master bedroom",
+   "short": "MB",
+   "shape": "room",
+   "color": "#7c3aed"
+  },
+  {
+   "id": "bedroom",
+   "label": "Bedroom",
+   "short": "B",
+   "shape": "room",
+   "color": "#a78bfa"
+  },
+  {
+   "id": "pooja",
+   "label": "Pooja room",
+   "short": "P",
+   "shape": "room",
+   "color": "#eab308"
+  },
+  {
+   "id": "toilet",
+   "label": "Toilet / bathroom",
+   "short": "T",
+   "shape": "room",
+   "color": "#0ea5e9"
+  },
+  {
+   "id": "staircase",
+   "label": "Staircase",
+   "short": "St",
+   "shape": "room",
+   "color": "#a16207"
+  },
+  {
+   "id": "living",
+   "label": "Living room",
+   "short": "L",
+   "shape": "room",
+   "color": "#22c55e"
+  },
+  {
+   "id": "dining",
+   "label": "Dining",
+   "short": "Di",
+   "shape": "room",
+   "color": "#84cc16"
+  },
+  {
+   "id": "study",
+   "label": "Study / office",
+   "short": "Sd",
+   "shape": "room",
+   "color": "#14b8a6"
+  },
+  {
+   "id": "store",
+   "label": "Store room",
+   "short": "S",
+   "shape": "room",
+   "color": "#78716c"
+  },
+  {
+   "id": "courtyard",
+   "label": "Open courtyard",
+   "short": "O",
+   "shape": "room",
+   "color": "#4ade80"
+  },
+  {
+   "id": "balcony",
+   "label": "Balcony / open area",
+   "short": "Ba",
+   "shape": "room",
+   "color": "#38bdf8"
+  },
+  {
+   "id": "borewell",
+   "label": "Borewell / UG water tank",
+   "short": "W",
+   "shape": "point",
+   "color": "#2563eb"
+  },
+  {
+   "id": "overhead_tank",
+   "label": "Overhead water tank",
+   "short": "OT",
+   "shape": "point",
+   "color": "#1e40af"
+  },
+  {
+   "id": "septic",
+   "label": "Septic tank",
+   "short": "Se",
+   "shape": "point",
+   "color": "#6b7280"
+  },
+  {
+   "id": "electrical",
+   "label": "Electrical / generator",
+   "short": "El",
+   "shape": "point",
+   "color": "#ef4444"
+  },
+  {
+   "id": "pillar",
+   "label": "Pillar / column",
+   "short": "Pi",
+   "shape": "point",
+   "color": "#dc2626"
+  },
+  {
+   "id": "wall",
+   "label": "Wall / heavy beam",
+   "short": "Wa",
+   "shape": "room",
+   "color": "#475569"
+  },
+  {
+   "id": "parking",
+   "label": "Parking",
+   "short": "Pk",
+   "shape": "room",
+   "color": "#94a3b8"
+  }
+ ],
+ "marma": {
+  "source": "standard (pending user's reference images)",
+  "description": "Marma points on the 9x9 (Paramasayika) grid, in pada units (u = 0 West to 9 East, v = 0 North to 9 South). Major: Mahamarma at the centre plus the corners and side midpoints of the Brahmasthan (diagonals and Vamsha/central lines meeting the Nadi lines 3 and 6). Minor: where the two diagonals (Karna sutras) cross Nadi lines 1, 2, 7, 8.",
+  "major": [
+   [
+    4.5,
+    4.5,
+    "Mahamarma (Brahma nabhi)"
+   ],
+   [
+    3,
+    3,
+    "Brahmasthan NW corner"
+   ],
+   [
+    6,
+    3,
+    "Brahmasthan NE corner"
+   ],
+   [
+    6,
+    6,
+    "Brahmasthan SE corner"
+   ],
+   [
+    3,
+    6,
+    "Brahmasthan SW corner"
+   ],
+   [
+    4.5,
+    3,
+    "Brahmasthan N midpoint"
+   ],
+   [
+    6,
+    4.5,
+    "Brahmasthan E midpoint"
+   ],
+   [
+    4.5,
+    6,
+    "Brahmasthan S midpoint"
+   ],
+   [
+    3,
+    4.5,
+    "Brahmasthan W midpoint"
+   ]
+  ],
+  "minor": [
+   [
+    1,
+    1,
+    "Diagonal x line 1 (NW)"
+   ],
+   [
+    2,
+    2,
+    "Diagonal x line 2 (NW)"
+   ],
+   [
+    8,
+    1,
+    "Diagonal x line 1 (NE)"
+   ],
+   [
+    7,
+    2,
+    "Diagonal x line 2 (NE)"
+   ],
+   [
+    8,
+    8,
+    "Diagonal x line 1 (SE)"
+   ],
+   [
+    7,
+    7,
+    "Diagonal x line 2 (SE)"
+   ],
+   [
+    1,
+    8,
+    "Diagonal x line 1 (SW)"
+   ],
+   [
+    2,
+    7,
+    "Diagonal x line 2 (SW)"
+   ]
+  ]
+ },
+ "rules": [
+  {
+   "id": "kitchen-se",
+   "kind": "zone",
+   "element": "kitchen",
+   "title": "Kitchen in South-East (Agni)",
+   "pass": [
+    "SE"
+   ],
+   "caution": [
+    "NW",
+    "E",
+    "S"
+   ],
+   "fail": [
+    "NE",
+    "SW",
+    "N",
+    "C",
+    "W"
+   ],
+   "reason": {
+    "pass": "Kitchen in {zone}: the fire zone (Agni), ideal.",
+    "caution": "Kitchen in {zone}: acceptable alternative; SE is ideal.",
+    "fail": "Kitchen in {zone}: fire here clashes with the zone's element."
+   },
+   "weight": 10,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "master-sw",
+   "kind": "zone",
+   "element": "master_bedroom",
+   "title": "Master bedroom in South-West (Nairutya)",
+   "pass": [
+    "SW"
+   ],
+   "caution": [
+    "S",
+    "W"
+   ],
+   "fail": [
+    "NE",
+    "SE",
+    "C",
+    "N",
+    "E",
+    "NW"
+   ],
+   "reason": {
+    "pass": "Master bedroom in {zone}: stability zone, ideal for the head of the house.",
+    "caution": "Master bedroom in {zone}: acceptable; SW is ideal.",
+    "fail": "Master bedroom in {zone}: not recommended; prefer SW."
+   },
+   "weight": 10,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "pooja-ne",
+   "kind": "zone",
+   "element": "pooja",
+   "title": "Pooja in North-East (Ishanya)",
+   "pass": [
+    "NE"
+   ],
+   "caution": [
+    "N",
+    "E",
+    "W",
+    "C"
+   ],
+   "fail": [
+    "S",
+    "SW",
+    "SE",
+    "NW"
+   ],
+   "reason": {
+    "pass": "Pooja in {zone}: the sacred Ishanya corner, ideal.",
+    "caution": "Pooja in {zone}: acceptable; NE is ideal.",
+    "fail": "Pooja in {zone}: avoid; move towards NE."
+   },
+   "weight": 10,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "toilet-zone",
+   "kind": "zone",
+   "element": "toilet",
+   "title": "Toilets not in NE, centre or SW",
+   "pass": [
+    "W",
+    "NW",
+    "S"
+   ],
+   "caution": [
+    "N",
+    "E",
+    "SE"
+   ],
+   "fail": [
+    "NE",
+    "C",
+    "SW"
+   ],
+   "reason": {
+    "pass": "Toilet in {zone}: acceptable zone for toilets.",
+    "caution": "Toilet in {zone}: tolerable, keep it clean and closed.",
+    "fail": "Toilet in {zone}: a major defect (NE, Brahmasthan and SW must stay free of toilets)."
+   },
+   "weight": 10,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "stair-zone",
+   "kind": "zone",
+   "element": "staircase",
+   "title": "Staircase in South / West / South-West",
+   "pass": [
+    "S",
+    "W",
+    "SW"
+   ],
+   "caution": [
+    "SE",
+    "NW"
+   ],
+   "fail": [
+    "NE",
+    "C",
+    "N",
+    "E"
+   ],
+   "reason": {
+    "pass": "Staircase in {zone}: heavy element in a heavy zone, good.",
+    "caution": "Staircase in {zone}: acceptable.",
+    "fail": "Staircase in {zone}: keep stairs out of NE, N, E and the centre."
+   },
+   "weight": 8,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "water-ne",
+   "kind": "zone",
+   "element": "borewell",
+   "title": "Borewell / underground water in North-East / North",
+   "pass": [
+    "NE",
+    "N",
+    "E"
+   ],
+   "caution": [
+    "W",
+    "NW"
+   ],
+   "fail": [
+    "SE",
+    "SW",
+    "S",
+    "C"
+   ],
+   "reason": {
+    "pass": "Water source in {zone}: water zone, ideal.",
+    "caution": "Water source in {zone}: acceptable; NE or N is better.",
+    "fail": "Water source in {zone}: avoid underground water here."
+   },
+   "weight": 8,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "ohtank-sw",
+   "kind": "zone",
+   "element": "overhead_tank",
+   "title": "Overhead tank in South-West / West",
+   "pass": [
+    "SW",
+    "W",
+    "S"
+   ],
+   "caution": [
+    "NW",
+    "SE"
+   ],
+   "fail": [
+    "NE",
+    "C",
+    "N",
+    "E"
+   ],
+   "reason": {
+    "pass": "Overhead tank in {zone}: weight in the heavy zone, good.",
+    "caution": "Overhead tank in {zone}: acceptable.",
+    "fail": "Overhead tank in {zone}: avoid load in NE / centre / light zones."
+   },
+   "weight": 5,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "septic-nw",
+   "kind": "zone",
+   "element": "septic",
+   "title": "Septic tank in North-West / West, never NE",
+   "pass": [
+    "NW",
+    "W"
+   ],
+   "caution": [
+    "N",
+    "S",
+    "E"
+   ],
+   "fail": [
+    "NE",
+    "SW",
+    "SE",
+    "C"
+   ],
+   "reason": {
+    "pass": "Septic tank in {zone}: correct zone.",
+    "caution": "Septic tank in {zone}: tolerable; NW or W is preferred.",
+    "fail": "Septic tank in {zone}: a serious defect."
+   },
+   "weight": 8,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "living-ne",
+   "kind": "zone",
+   "element": "living",
+   "title": "Living room in North / East / North-East",
+   "pass": [
+    "N",
+    "E",
+    "NE",
+    "NW"
+   ],
+   "caution": [
+    "W",
+    "C",
+    "SE"
+   ],
+   "fail": [
+    "SW"
+   ],
+   "reason": {
+    "pass": "Living room in {zone}: good for an active space.",
+    "caution": "Living room in {zone}: acceptable.",
+    "fail": "Living room in {zone}: SW is better reserved for the master bedroom."
+   },
+   "weight": 4,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "bedroom-zone",
+   "kind": "zone",
+   "element": "bedroom",
+   "title": "Other bedrooms in West / South / North-West",
+   "pass": [
+    "W",
+    "S",
+    "NW"
+   ],
+   "caution": [
+    "N",
+    "E",
+    "SE",
+    "SW"
+   ],
+   "fail": [
+    "NE",
+    "C"
+   ],
+   "reason": {
+    "pass": "Bedroom in {zone}: suitable.",
+    "caution": "Bedroom in {zone}: acceptable.",
+    "fail": "Bedroom in {zone}: avoid sleeping in NE / Brahmasthan."
+   },
+   "weight": 4,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "dining-zone",
+   "kind": "zone",
+   "element": "dining",
+   "title": "Dining in West / East / South",
+   "pass": [
+    "W",
+    "E",
+    "S"
+   ],
+   "caution": [
+    "N",
+    "NW",
+    "SE"
+   ],
+   "fail": [
+    "NE",
+    "SW"
+   ],
+   "reason": {
+    "pass": "Dining in {zone}: suitable.",
+    "caution": "Dining in {zone}: acceptable.",
+    "fail": "Dining in {zone}: not recommended."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "study-zone",
+   "kind": "zone",
+   "element": "study",
+   "title": "Study in East / North / North-East / West",
+   "pass": [
+    "E",
+    "N",
+    "NE",
+    "W"
+   ],
+   "caution": [
+    "NW",
+    "SW",
+    "S"
+   ],
+   "fail": [
+    "SE",
+    "C"
+   ],
+   "reason": {
+    "pass": "Study in {zone}: good for concentration.",
+    "caution": "Study in {zone}: acceptable.",
+    "fail": "Study in {zone}: not recommended."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "store-zone",
+   "kind": "zone",
+   "element": "store",
+   "title": "Store room in South-West / South / West / North-West",
+   "pass": [
+    "SW",
+    "S",
+    "W",
+    "NW"
+   ],
+   "caution": [
+    "SE",
+    "N",
+    "E"
+   ],
+   "fail": [
+    "NE",
+    "C"
+   ],
+   "reason": {
+    "pass": "Store in {zone}: suitable for heavy storage.",
+    "caution": "Store in {zone}: acceptable.",
+    "fail": "Store in {zone}: keep NE and the centre light."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "electrical-se",
+   "kind": "zone",
+   "element": "electrical",
+   "title": "Electrical / generator in South-East",
+   "pass": [
+    "SE"
+   ],
+   "caution": [
+    "S",
+    "NW",
+    "E"
+   ],
+   "fail": [
+    "NE",
+    "SW",
+    "N",
+    "C"
+   ],
+   "reason": {
+    "pass": "Electrical in {zone}: Agni zone, ideal.",
+    "caution": "Electrical in {zone}: acceptable.",
+    "fail": "Electrical in {zone}: avoid."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "balcony-ne",
+   "kind": "zone",
+   "element": "balcony",
+   "title": "Balconies / open areas in North / East / North-East",
+   "pass": [
+    "N",
+    "E",
+    "NE"
+   ],
+   "caution": [
+    "NW",
+    "SE",
+    "W",
+    "C"
+   ],
+   "fail": [
+    "SW",
+    "S"
+   ],
+   "reason": {
+    "pass": "Open area in {zone}: good, lets in light and energy.",
+    "caution": "Open area in {zone}: acceptable.",
+    "fail": "Open area in {zone}: SW / S should be closed and heavy."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "courtyard-c",
+   "kind": "zone",
+   "element": "courtyard",
+   "title": "Courtyard in the centre or North-East",
+   "pass": [
+    "C",
+    "NE",
+    "N",
+    "E"
+   ],
+   "caution": [
+    "NW",
+    "W",
+    "SE"
+   ],
+   "fail": [
+    "SW",
+    "S"
+   ],
+   "reason": {
+    "pass": "Courtyard in {zone}: keeps the space open, good.",
+    "caution": "Courtyard in {zone}: acceptable.",
+    "fail": "Courtyard in {zone}: not recommended."
+   },
+   "weight": 3,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "parking-zone",
+   "kind": "zone",
+   "element": "parking",
+   "title": "Parking in North-West / South-East",
+   "pass": [
+    "NW",
+    "SE"
+   ],
+   "caution": [
+    "N",
+    "E",
+    "W",
+    "S"
+   ],
+   "fail": [
+    "NE",
+    "SW",
+    "C"
+   ],
+   "reason": {
+    "pass": "Parking in {zone}: suitable.",
+    "caution": "Parking in {zone}: acceptable.",
+    "fail": "Parking in {zone}: avoid."
+   },
+   "weight": 2,
+   "source": "standard (pending user's reference images)"
+  },
+  {
+   "id": "entrance-pada",
+   "kind": "entrancePada",
+   "element": "entrance",
+   "title": "Main door on an auspicious pada",
+   "weight": 12,
+   "source": "standard (pending user's reference images)",
+   "note": "Door padas follow the 32 outer devtas of the 9x9 mandala (8 per side, counted clockwise from the corner).",
+   "good": [
+    "Jayanta",
+    "Indra",
+    "Surya",
+    "Vitatha",
+    "Grihakshat",
+    "Sugriva",
+    "Pushpadanta",
+    "Mukhya",
+    "Bhallata",
+    "Soma",
+    "Aditi"
+   ],
+   "caution": [
+    "Parjanya",
+    "Satya",
+    "Pusha",
+    "Gandharva",
+    "Dauvarika",
+    "Varuna",
+    "Bhujaga",
+    "Diti"
+   ],
+   "bad": [
+    "Shikhi",
+    "Bhrisha",
+    "Antariksha",
+    "Agni",
+    "Yama",
+    "Bhringraj",
+    "Mriga",
+    "Pitru",
+    "Asura",
+    "Shosha",
+    "Papayakshma",
+    "Roga",
+    "Naga"
+   ],
+   "reason": {
+    "pass": "Door on {pada} pada ({side} side): auspicious.",
+    "caution": "Door on {pada} pada ({side} side): neutral / mixed results.",
+    "fail": "Door on {pada} pada ({side} side): inauspicious pada, consider shifting."
+   }
+  },
+  {
+   "id": "brahmasthan-open",
+   "kind": "brahmasthan",
+   "title": "Brahmasthan (central 3x3) kept open",
+   "weight": 12,
+   "source": "standard (pending user's reference images)",
+   "fail": [
+    "toilet",
+    "staircase",
+    "pillar",
+    "wall",
+    "kitchen",
+    "septic",
+    "borewell",
+    "store",
+    "overhead_tank",
+    "electrical"
+   ],
+   "caution": [
+    "master_bedroom",
+    "bedroom",
+    "pooja",
+    "dining",
+    "study",
+    "parking"
+   ],
+   "reason": {
+    "pass": "Brahmasthan is open / light.",
+    "caution": "{items} in the Brahmasthan: keep it light and uncluttered.",
+    "fail": "{items} in the Brahmasthan: the centre must stay open (no heavy load, pillars, toilets or stairs)."
+   }
+  },
+  {
+   "id": "marma-clear",
+   "kind": "marma",
+   "title": "Marma sthan free of pillars, walls, toilets and stairs",
+   "weight": 10,
+   "source": "standard (pending user's reference images)",
+   "check": [
+    "pillar",
+    "wall",
+    "toilet",
+    "staircase",
+    "septic"
+   ],
+   "tolerancePada": 0.35,
+   "reason": {
+    "pass": "No pillar, wall, toilet or staircase sits on a marma point.",
+    "caution": "{items} on a minor marma point.",
+    "fail": "{items} on a major marma point (Mahamarma / Brahmasthan marmas)."
+   }
+  },
+  {
+   "id": "orientation",
+   "kind": "orientation",
+   "title": "Plot aligned to the cardinal directions",
+   "weight": 5,
+   "source": "standard (pending user's reference images)",
+   "passDeg": 10,
+   "reason": {
+    "pass": "Plot sides are within {deg}\u00b0 of the cardinal directions.",
+    "caution": "Plot is turned {deg}\u00b0 from the cardinal directions (vidisha tendency): cross-check with 'Exact true North' alignment and the 16-zone view."
+   }
+  },
+  {
+   "id": "plot-shape",
+   "kind": "shape",
+   "title": "Plot shape regular (square or rectangle)",
+   "weight": 8,
+   "source": "standard (pending user's reference images)",
+   "maxAspect": 2.0,
+   "cautionAspect": 1.5,
+   "minFill": 0.95,
+   "reason": {
+    "pass": "Plot is regular ({fill}% of its bounding rectangle, ratio 1:{aspect}).",
+    "caution": "Plot is slightly irregular or elongated ({fill}% fill, ratio 1:{aspect}).",
+    "fail": "Plot is irregular or too elongated ({fill}% fill, ratio 1:{aspect})."
+   }
+  },
+  {
+   "id": "corners",
+   "kind": "corners",
+   "title": "Corners: cuts and extensions",
+   "weight": 10,
+   "source": "standard (pending user's reference images)",
+   "cutThreshold": 0.85,
+   "cut": {
+    "NE": "fail",
+    "SE": "caution",
+    "SW": "caution",
+    "NW": "caution"
+   },
+   "extension": {
+    "NE": "pass",
+    "SE": "fail",
+    "SW": "fail",
+    "NW": "caution"
+   },
+   "reason": {
+    "pass": "All four corners intact.",
+    "cut": "{corner} corner is cut ({cov}% filled).",
+    "ext": "Plot extends towards {corner}."
+   }
+  },
+  {
+   "id": "slope",
+   "kind": "input",
+   "input": "slope",
+   "title": "Ground slope towards North / East / North-East",
+   "weight": 6,
+   "source": "standard (pending user's reference images)",
+   "pass": [
+    "N",
+    "E",
+    "NE"
+   ],
+   "caution": [
+    "NW",
+    "SE",
+    "flat"
+   ],
+   "fail": [
+    "S",
+    "W",
+    "SW"
+   ],
+   "reason": {
+    "pass": "Land slopes down towards {zone}: good.",
+    "caution": "Land slopes towards {zone}: neutral.",
+    "fail": "Land slopes down towards {zone}: South/West should be higher."
+   }
+  },
+  {
+   "id": "heights",
+   "kind": "input",
+   "input": "height",
+   "title": "Taller structures / higher side in South / West",
+   "weight": 6,
+   "source": "standard (pending user's reference images)",
+   "pass": [
+    "S",
+    "W",
+    "SW"
+   ],
+   "caution": [
+    "SE",
+    "NW",
+    "even"
+   ],
+   "fail": [
+    "N",
+    "E",
+    "NE"
+   ],
+   "reason": {
+    "pass": "Higher side is {zone}: good.",
+    "caution": "Higher side is {zone}: neutral.",
+    "fail": "Higher side is {zone}: N/E/NE should be lower and lighter."
+   }
+  },
+  {
+   "id": "entrance-facing",
+   "kind": "facing",
+   "element": "entrance",
+   "title": "Main door facing (video / no layout)",
+   "weight": 8,
+   "source": "standard (pending user's reference images)",
+   "pass": [
+    "E",
+    "N",
+    "NE"
+   ],
+   "caution": [
+    "W",
+    "NW",
+    "SE",
+    "S"
+   ],
+   "fail": [
+    "SW"
+   ],
+   "reason": {
+    "pass": "Main door faces {zone}: auspicious.",
+    "caution": "Main door faces {zone}: acceptable if on a good pada.",
+    "fail": "Main door faces {zone}: generally avoided."
+   }
+  }
+ ]
+}

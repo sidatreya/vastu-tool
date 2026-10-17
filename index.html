@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#7c2d12" />
+  <title>Vastu Mandala Analyser</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Crect width='90' height='90' rx='16' fill='%237c2d12'/%3E%3Cpath d='M15 15h60v60H15z' fill='none' stroke='%23fde68a' stroke-width='4'/%3E%3Cpath d='M35 15v60M55 15v60M15 35h60M15 55h60' stroke='%23fde68a' stroke-width='2'/%3E%3Ccircle cx='45' cy='45' r='5' fill='%23ef4444'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">ॐ</span><div><h1>Vastu Mandala Analyser</h1><p>9×9 Vastu Purush Mandala · Marma sthan · Fundamentals check</p></div></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="layout">Layout</button>
+      <button class="tab" data-tab="report">Report <span id="tab-score" class="pill"></span></button>
+      <button class="tab" data-tab="video">Video</button>
+      <button class="tab" data-tab="about">About</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- LAYOUT -->
+    <section id="tab-layout" class="tabpane active">
+      <div class="layout-grid">
+        <div class="stage-col">
+          <div class="toolbar" id="modebar">
+            <button data-mode="view" class="mode active" title="Tap to inspect padas and marks">👁 Inspect</button>
+            <button data-mode="boundary" class="mode" title="Drag the plot corners">⬚ Boundary</button>
+            <button data-mode="north" class="mode" title="Set North">🧭 North</button>
+            <button data-mode="label" class="mode" title="Tap rooms to label them">🏷 Label rooms</button>
+            <span class="spacer"></span>
+            <select id="zoom" title="Zoom"><option value="1">Fit</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option></select>
+          </div>
+          <div id="stage-wrap" class="stage-wrap">
+            <div id="empty" class="empty">
+              <h2>Start with a layout</h2>
+              <p>Upload a floor plan or site layout (image or PDF), draw a simple plot, or try the example.</p>
+              <div class="empty-actions">
+                <label class="btn primary">⬆ Upload plan<input type="file" id="file-plan" accept="image/*,application/pdf" hidden /></label>
+                <button class="btn" id="btn-blank">✏ Draw a plot</button>
+                <button class="btn ghost" id="btn-example">Load example layout</button>
+              </div>
+              <p class="muted small">Everything runs in your browser. Files never leave your device.</p>
+            </div>
+            <svg id="stage" xmlns="http://www.w3.org/2000/svg" hidden></svg>
+          </div>
+          <div id="hint" class="hint"></div>
+          <div id="info" class="info" hidden></div>
+        </div>
+
+        <aside class="panel-col">
+          <div class="card" id="card-file">
+            <div class="row between"><h3>Layout</h3><span id="example-badge" class="badge warn" hidden>EXAMPLE</span></div>
+            <div class="row wrap gap">
+              <label class="btn sm">⬆ Upload<input type="file" id="file-plan2" accept="image/*,application/pdf" hidden /></label>
+              <button class="btn sm" id="btn-blank2">✏ Draw plot</button>
+              <button class="btn sm ghost" id="btn-example2">Load example layout</button>
+              <button class="btn sm ghost danger" id="btn-clear">Clear</button>
+            </div>
+          </div>
+
+          <div class="card" id="card-north">
+            <h3>North direction</h3>
+            <div class="row gap center">
+              <svg id="compass" viewBox="-60 -60 120 120" width="120" height="120" aria-label="Drag to rotate North"></svg>
+              <div class="col gap-s">
+                <label class="small">Degrees (clockwise from the top of the plan)</label>
+                <div class="row gap-s"><button class="btn sm" data-rot="-5">−5</button><button class="btn sm" data-rot="-1">−1</button><input id="north-deg" type="number" min="0" max="359.9" step="0.5" value="0" /><button class="btn sm" data-rot="1">+1</button><button class="btn sm" data-rot="5">+5</button></div>
+                <button class="btn sm ghost" id="btn-north-phone" title="Hold the phone flat with its top edge pointing to the top of the plan on site">📱 Use phone compass</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="card-label">
+            <h3>Label rooms & elements</h3>
+            <p class="small muted">Pick a type, switch to <b>Label rooms</b>, then tap on the plan. Drag to move; drag the corner dot to resize.</p>
+            <div id="palette" class="palette"></div>
+            <div id="sel-panel" class="sel-panel" hidden></div>
+          </div>
+
+          <div class="card">
+            <h3>Overlay</h3>
+            <label class="switch"><input type="checkbox" id="opt-overlay" checked /> Vastu Purush Mandala (9×9, 81 padas)</label>
+            <label class="row gap-s small">Opacity <input type="range" id="opt-opacity" min="0.1" max="1" step="0.05" value="0.6" /></label>
+            <label class="switch"><input type="checkbox" id="opt-devtas" checked /> 45 devta names</label>
+            <label class="switch"><input type="checkbox" id="opt-marma" checked /> Marma sthan (red dots)</label>
+            <label class="switch"><input type="checkbox" id="opt-purusha" /> Vastu Purusha figure</label>
+            <div class="row gap-s small">Directions
+              <select id="opt-zones"><option value="off">Off</option><option value="8" selected>8 directions</option><option value="16">16 zones (22.5°)</option></select>
+            </div>
+            <div class="row gap-s small">Zone method
+              <select id="opt-method"><option value="grid" selected>3×3 mandala blocks</option><option value="angle">45° sectors from centre</option></select>
+            </div>
+            <div class="row gap-s small">Grid alignment
+              <select id="opt-align"><option value="plot" selected>Plot sides (nearest to North)</option><option value="north">Exact true North</option></select>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Site details <span class="muted small">(optional)</span></h3>
+            <div class="row gap-s small">Ground slopes down towards <select id="site-slope"></select></div>
+            <div class="row gap-s small">Higher / taller side <select id="site-height"></select></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section id="tab-report" class="tabpane">
+      <div class="report-head card">
+        <div id="score-ring" class="score-ring"></div>
+        <div class="grow">
+          <h2>Vastu fundamentals report</h2>
+          <p class="muted small" id="report-sub">Load or draw a layout, set North and label rooms to see the report.</p>
+          <div class="row wrap gap">
+            <button class="btn primary sm" id="btn-png">⬇ Annotated PNG</button>
+            <button class="btn sm" id="btn-print">🖨 Printable report / PDF</button>
+          </div>
+        </div>
+      </div>
+      <div id="report-list"></div>
+      <p class="muted small disclaimer">Rules are marked <i>standard (pending user's reference images)</i> until they are checked against the owner's reference material. This tool is a guide, not a substitute for a qualified Vastu consultant.</p>
+    </section>
+
+    <!-- VIDEO -->
+    <section id="tab-video" class="tabpane">
+      <div class="card">
+        <h2>Video site analysis</h2>
+        <p class="small muted">Upload a walkthrough video. Frames are pulled out every ~2 seconds in your browser. Tag each frame with the room and where it is in the house (and which way the main door faces), then get an instant report.</p>
+        <div class="row wrap gap">
+          <label class="btn primary">🎥 Upload video<input type="file" id="file-video" accept="video/*" hidden /></label>
+          <button class="btn" id="btn-autodetect" disabled>✨ Auto-detect rooms</button>
+          <button class="btn" id="btn-compass">🧭 Enable phone compass</button>
+          <span id="compass-read" class="pill"></span>
+        </div>
+        <div id="ai-status" class="small muted"></div>
+        <div id="video-progress" class="progress" hidden><div></div></div>
+      </div>
+      <div id="frames" class="frames"></div>
+      <div class="row gap wrap" id="video-actions" hidden>
+        <button class="btn primary" id="btn-analyse-video">Analyse tagged frames</button>
+        <span class="small muted">Untagged frames are skipped.</span>
+      </div>
+      <div id="video-report"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="tab-about" class="tabpane">
+      <div class="card prose" id="about"></div>
+    </section>
+  </main>
+  <div id="print-root"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
