@@ -1,0 +1,4 @@
+{
+  "planApiBase": "https://yanking-automaker-uncloak.ngrok-free.dev/vastu-api",
+  "planApiNote": "Base URL of Geek Kid's plan-extract API (GET /health, POST /plan/extract). Override per browser with ?api=<url> (?api=off disables) or localStorage 'vastu-plan-api'. Empty string = no API: uploads use the in-browser DXF parser."
+}

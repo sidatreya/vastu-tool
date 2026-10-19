@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fffbeb" />
+  <meta name="description" content="Vastu Purush Mandala analyser: overlay the 9×9 mandala on a plan, check marma sthan and room zones. Runs on your device." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Vastu" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+  <title>Vastu Mandala Analyser</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'%3E%3Crect width='90' height='90' rx='16' fill='%237c2d12'/%3E%3Cpath d='M15 15h60v60H15z' fill='none' stroke='%23fde68a' stroke-width='4'/%3E%3Cpath d='M35 15v60M55 15v60M15 35h60M15 55h60' stroke='%23fde68a' stroke-width='2'/%3E%3Ccircle cx='45' cy='45' r='5' fill='%23ef4444'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-Dv6mWat1.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-itK1ODVY.css">
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <!-- Visual refresh v2 (CCO VISUAL_REFRESH.md, 20 Oct): brand + plan left, step control centre, actions right. No score here. Restyle via the --vt-* / --tb-* variables in src/style.css. -->
+    <div class="tb-left">
+      <span class="logo" aria-hidden="true">ॐ</span>
+      <h1 class="tb-brand">Vastu Mandala</h1>
+      <span class="tb-sep" aria-hidden="true">/</span>
+      <span class="tb-plan" id="tb-plan" title="Current plan">No plan yet</span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Steps">
+      <button class="tab active" data-tab="layout" data-flow="upload"><i class="fn">1</i>Upload</button>
+      <button class="tab" data-tab="form" data-flow="form"><i class="fn">2</i>Form</button>
+      <button class="tab" data-tab="layout" data-flow="plot"><i class="fn">3</i>Plot &amp; VPM</button>
+      <button class="tab" data-tab="report" data-flow="report"><i class="fn">4</i>Report</button>
+      <button class="tab" data-tab="remedies" data-flow="remedies"><i class="fn">5</i>Remedies</button>
+    </nav>
+    <div class="tb-right">
+      <label class="tb-mode tb-act"><span class="tb-mode-l">Mode:</span><select id="tb-mode" aria-label="Plan mode"><option value="view">Inspect</option><option value="north">North</option><option value="scale">Scale</option><option value="boundary">Outline</option><option value="label">Label rooms</option></select></label>
+      <button class="tb-act tb-text" id="tb-compare" type="button" title="Compare the current and suggested ratings">Compare</button>
+      <button class="tb-act tb-text" id="tb-print" type="button" title="Print the report">Print</button>
+      <button class="tb-act tb-ghost" id="tb-upload" type="button" title="Upload a plan">Upload</button>
+      <button class="tb-act tb-solid" id="tb-export" type="button" title="Export the plan and report">Export</button>
+      <details class="tb-more" id="tb-more"><summary class="tb-act tb-text" aria-label="More">⋯</summary>
+        <div class="tb-menu" role="menu"><button class="tb-mi tb-menu-m" type="button" data-fwd="#tb-compare" role="menuitem">Compare</button><button class="tb-mi tb-menu-m" type="button" data-fwd="#tb-print" role="menuitem">Print</button><button class="tb-mi tb-menu-m" type="button" data-fwd="#tb-upload" role="menuitem">Upload</button><button class="tab tab-aux" data-tab="video" role="menuitem">Video</button><button class="tab tab-aux" data-tab="about" role="menuitem">About</button></div>
+      </details>
+    </div>
+  </header>
+
+  <main>
+    <!-- LAYOUT -->
+    <section id="tab-layout" class="tabpane active">
+      <div class="layout-grid">
+        <div class="stage-col">
+          <nav class="steps substeps" id="steps" aria-label="Plot &amp; VPM sub-steps">
+            <button class="step" data-step="north"><i aria-hidden="true"></i>North</button>
+            <button class="step" data-step="scale"><i aria-hidden="true"></i>Scale</button>
+            <button class="step" data-step="boundary"><i aria-hidden="true"></i>Outline</button>
+            <button class="step" data-step="label"><i aria-hidden="true"></i>Rooms</button>
+            <button class="step" data-step="export"><i aria-hidden="true"></i>Export</button>
+          </nav>
+          <div id="north-gate" class="north-gate" role="alert" hidden>
+            <div><b>🧭 Confirm North first.</b> <span class="north-note">Don't assume the top of the drawing is North.</span> North is never assumed. Rotate the red arrow (drag on the plan or the dial, type degrees, or use the phone compass), then confirm. If the top of the plan already faces North, confirm at 0° as it is: no need to move the dial. North belongs to step 2 (Form): confirm it there, or here. No mandala, analysis, score or export until then.</div>
+            <div class="row wrap gap-s"><button class="btn sm primary" id="btn-confirm-north2">Confirm North</button><button class="btn sm" id="btn-gate-set">Set North</button><button class="btn sm" data-go="form">Confirm in step 2 (Form)</button></div>
+          </div>
+          <div class="toolbar" id="modebar">
+            <button data-mode="view" class="mode active" title="Tap to inspect padas and marks">👁 Inspect</button>
+            <button data-mode="north" class="mode" title="Set North">🧭 North</button>
+            <button data-mode="scale" class="mode" title="Set the scale: tap two points of known length">📏 Scale</button>
+            <button data-mode="boundary" class="mode" title="Drag the plot corners; add blocks">⬚ Outline</button>
+            <button data-mode="label" class="mode" title="Tap rooms to label them">🏷 Label rooms</button>
+            <span class="spacer"></span>
+            <select id="zoom" title="Zoom"><option value="1">Fit</option><option value="1.5">150%</option><option value="2">200%</option><option value="3">300%</option></select>
+          </div>
+          <div id="stage-wrap" class="stage-wrap">
+            <div id="empty" class="empty">
+              <h2>Start with a layout</h2>
+              <p>Upload a floor plan or site layout (image, PDF, DXF or DWG), draw a simple plot, or try the example.</p>
+              <div class="empty-actions">
+                <label class="btn primary">⬆ Upload plan<input type="file" id="file-plan" accept="image/*,application/pdf,.pdf,.dxf,.dwg" hidden /></label>
+                <label class="btn">📐 DXF / DWG<input type="file" id="file-dxf" accept=".dxf,.dwg,image/vnd.dxf,application/dxf" hidden /></label>
+                <button class="btn" id="btn-blank">✏ Draw a plot</button>
+                <button class="btn ghost" id="btn-example">Load example layout</button>
+              </div>
+              <!-- DWG support note: text verbatim from vastu-handoff/2026-10-19/drafting/DWG_SUPPORT_help.md -->
+              <details class="dwg-note small" id="dwg-note"><summary><span>DWG files from AutoCAD Release 13 up to the current 2018 format (used by AutoCAD 2018 and later) are converted to DXF on our server.</span> <span class="more">More</span></summary>
+                <p>Some advanced objects, mostly from 2010 or newer (proxy objects, some dynamic blocks, newer AEC/Architecture objects), may be skipped. If anything is missing after upload, Save As DXF (R2013 or later) and upload that instead.</p></details>
+              <div id="plot-form-empty"></div>
+              <p class="muted small">Photos and images stay on your device. DWG, DXF and PDF plans are sent to our plan reader to pick out walls, rooms and doors when it is online; the checks themselves run in your browser.</p>
+            </div>
+            <svg id="stage" xmlns="http://www.w3.org/2000/svg" hidden></svg>
+          </div>
+          <div id="upload-status" class="upload-status" role="status" aria-live="polite" hidden></div>
+          <div id="hint" class="hint"></div>
+          <div class="flow-next" data-on="layout" hidden></div>
+          <div id="info" class="info" hidden></div>
+          <div id="legend" class="card legend" hidden></div>
+        </div>
+
+        <aside class="panel-col">
+          <div class="card" id="card-file">
+            <div class="row between"><h3>Layout</h3><span id="example-badge" class="badge warn" hidden>EXAMPLE</span></div>
+            <div class="row wrap gap">
+              <label class="btn sm">⬆ Upload<input type="file" id="file-plan2" accept="image/*,application/pdf,.pdf,.dxf,.dwg" hidden /></label>
+              <label class="btn sm">📐 DXF / DWG<input type="file" id="file-dxf2" accept=".dxf,.dwg,image/vnd.dxf,application/dxf" hidden /></label>
+              <button class="btn sm" id="btn-blank2">✏ Draw plot</button>
+              <button class="btn sm ghost" id="btn-example2">Load example layout</button>
+              <button class="btn sm ghost danger" id="btn-clear">Clear</button>
+            </div>
+            <div id="plot-form-card"></div>
+            <div id="pdf-pages" class="row gap-s small" hidden>PDF page <select id="pdf-page"></select></div>
+            <div id="dxf-info" class="small muted" hidden></div>
+            <div id="plan-notes" class="plan-notes small" hidden></div>
+          </div>
+
+          <div class="card" id="card-vpm" hidden>
+            <h3>Mandala placement</h3>
+            <p class="small muted">One VPM per block, fitted inside it automatically. Explore other placements, or mark extensions yourself.</p>
+            <div class="row wrap gap-s"><button class="btn sm primary" id="btn-explore">Explore options</button><button class="btn sm" id="btn-vpm-edit" aria-pressed="false">Move / resize the square</button><button class="btn sm ghost" id="btn-vpm-reset" hidden>Back to the automatic fit</button></div>
+            <p class="small" id="vpm-fixed-note"></p>
+            <div class="row wrap gap-s center small" role="group" aria-label="Extensions layer">Extensions
+              <button class="btn sm mode" data-ext="off">Off</button><button class="btn sm mode" data-ext="draw">✏ Draw</button><button class="btn sm mode" data-ext="edit">Edit</button>
+            </div>
+          </div>
+
+          <div class="card" id="card-north">
+            <div class="row between center"><h3>North direction</h3><span id="north-chip" class="chip-caution" role="status" hidden>⚠ Not confirmed yet</span></div>
+            <div class="row gap center">
+              <svg id="compass" viewBox="-60 -60 120 120" width="120" height="120" aria-label="Drag to rotate North"></svg>
+              <div class="col gap-s">
+                <label class="small">Which way does the top of your plan face? (degrees, clockwise from the top)</label>
+                <div class="row gap-s"><button class="btn sm" data-rot="-5">−5</button><button class="btn sm" data-rot="-1">−1</button><input id="north-deg" type="number" min="0" max="359.9" step="0.5" value="0" /><button class="btn sm" data-rot="1">+1</button><button class="btn sm" data-rot="5">+5</button></div>
+                <button class="btn sm ghost" id="btn-north-phone" title="Hold the phone flat with its top edge pointing to the top of the plan on site">📱 Use phone compass</button>
+              </div>
+            </div>
+            <p class="small north-note">Don't assume the top of the drawing is North. Check the plan's north arrow or use a compass on site.</p>
+            <p class="small muted">North is confirmed in step 2 (Form); the card here adjusts the same North on the plan.</p>
+            <div id="north-status" class="north-status"></div>
+            <button class="btn primary" id="btn-confirm-north" disabled>Confirm North</button>
+          </div>
+
+          <div class="card" id="card-label">
+            <h3>Label rooms & elements</h3>
+            <p class="small muted">Pick a type, switch to <b>Label rooms</b>, then tap on the plan. Drag to move; drag the corner dot to resize.</p>
+            <div id="palette" class="palette"></div>
+            <div id="sel-panel" class="sel-panel" hidden></div>
+          </div>
+
+          <div class="card">
+            <div class="row between center"><h3>Overlay</h3><label class="switch adv-toggle small"><input type="checkbox" id="opt-advanced" /> Advanced</label></div>
+            <label class="switch"><input type="checkbox" id="opt-overlay" checked /> Vastu Purush Mandala (9×9, 81 padas)</label>
+            <label class="switch"><input type="checkbox" id="opt-dtext" /> Show drawing text (labels written on the plan)</label>
+            <label class="row gap-s small adv">Opacity <input type="range" id="opt-opacity" min="0.1" max="1" step="0.05" value="0.6" /></label>
+            <label class="switch adv"><input type="checkbox" id="opt-devtas" checked /> Devta initials when zoomed in (names in the tap info)</label>
+            <div class="row gap-s small muted" id="marma-note">Marma sthan, nabhi sthan and Brahmasthan: always shown, as the rule sets them out</div>
+            <label class="switch adv"><input type="checkbox" id="opt-purusha" checked /> Vastu Purusha figure</label>
+            <div class="row gap-s small">Directions
+              <select id="opt-zones"><option value="off">Off</option><option value="8" selected>8 directions</option><option value="16">16 zones (22.5°)</option></select>
+            </div>
+            <div class="row gap-s small adv">Zone method
+              <select id="opt-method"><option value="grid" selected>3×3 mandala blocks</option><option value="angle">45° sectors from centre</option></select>
+            </div>
+            <div class="row gap-s small adv">Grid alignment
+              <select id="opt-align"><option value="plot" selected>Plot sides (nearest to North)</option><option value="north">Exact true North</option></select>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Site <span class="muted small">(optional answers wake up the site rules)</span></h3>
+            <div id="site-panel"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- REPORT -->
+    <section id="tab-report" class="tabpane">
+      <!-- Report hero slot (visual refresh v2): the report layer may render the Before -> After score card here; styled by .report-hero-slot / .rv4-hero -->
+      <div id="report-hero-score" class="report-hero-slot" hidden></div>
+      <div id="report-v4" class="card"></div>
+      <div class="flow-next" data-on="report" hidden></div>
+      <div class="card" id="card-export">
+        <h3>Export the drawing with the Vastu grid</h3>
+        <div class="row wrap gap-s small"><label class="row gap-s">Plot name <input id="exp-name" type="text" placeholder="e.g. 3BHK apartment, ground floor" style="min-width:180px"/></label><label class="row gap-s">PDF paper <select id="exp-paper"><option value="A3" selected>A3</option><option value="A4">A4</option></select></label></div>
+        <div class="row wrap gap-s"><button class="btn sm exp primary" data-exp="pdf">⬇ PDF (vector, to scale)</button><button class="btn sm exp" data-exp="png">⬇ PNG (high-res)</button><button class="btn sm exp" data-exp="svg">⬇ SVG</button><button class="btn sm exp" data-exp="dxf">⬇ DXF (AutoCAD layers)</button></div>
+        <div id="export-why" class="small muted"></div>
+        <div id="export-ready" class="sel-panel small" hidden></div>
+      </div>
+      <label class="switch small adv-toggle report-adv"><input type="checkbox" id="opt-advanced2" /> Advanced: show the detailed fundamentals report (earlier rules)</label>
+      <div id="old-report" class="adv" hidden>
+      <div class="report-head card">
+        <div id="score-ring" class="score-ring"></div>
+        <div class="grow">
+          <h2>Vastu fundamentals report</h2>
+          <p class="verdict" id="verdict"></p>
+          <div class="counts" id="counts"></div>
+          <p class="muted small" id="report-sub">Load or draw a layout, set North and label rooms to see the report.</p>
+          <div class="row wrap gap">
+            <button class="btn primary sm" id="btn-png">⬇ Annotated PNG</button>
+            <button class="btn sm" id="btn-print">🖨 Printable report / PDF</button>
+          </div>
+        </div>
+      </div>
+      <div id="vpm-summary"></div>
+      <div id="report-list"></div>
+      </div>
+    </section>
+
+    <!-- FORM (step 2) -->
+    <section id="tab-form" class="tabpane">
+      <div class="card"><h2>Answer what you know</h2><p class="small muted">Only the road sides are needed. Skip anything you are not sure of: unanswered questions are marked “not assessed”. Your answers stay on your device.</p><div id="form-v4"></div></div>
+      <div class="flow-next" data-on="form" hidden></div>
+    </section>
+
+    <!-- REMEDIES (step 5) -->
+    <section id="tab-remedies" class="tabpane">
+      <div id="remedies-v4" class="card"></div>
+    </section>
+
+    <!-- VIDEO -->
+    <section id="tab-video" class="tabpane">
+      <div class="card">
+        <h2>Video site analysis</h2>
+        <p class="small muted">Upload a walkthrough video. Frames are pulled out every ~2 seconds in your browser. Tag each frame with the room and where it is in the house (and which way the main door faces), then get an instant report.</p>
+        <div class="row wrap gap">
+          <label class="btn primary">🎥 Upload video<input type="file" id="file-video" accept="video/*,video/mp4,video/quicktime,video/hevc,.mov,.mp4,.m4v,.hevc,.webm" hidden /></label>
+          <button class="btn" id="btn-autodetect" disabled>✨ Auto-detect rooms</button>
+          <button class="btn" id="btn-compass">🧭 Enable phone compass</button>
+          <span id="compass-read" class="pill"></span>
+        </div>
+        <div id="video-warn" class="warn-box small" role="alert" hidden></div>
+        <div id="ai-status" class="small muted"></div>
+        <div id="video-progress" class="progress" hidden><div></div></div>
+      </div>
+      <div id="frames" class="frames"></div>
+      <div class="row gap wrap" id="video-actions" hidden>
+        <button class="btn primary" id="btn-analyse-video">Analyse tagged frames</button>
+        <span class="small muted">Untagged frames are skipped.</span>
+      </div>
+      <div id="video-report"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="tab-about" class="tabpane">
+      <div class="card prose" id="about"></div>
+    </section>
+  </main>
+  <div id="print-root"></div>
+</body>
+</html>
